@@ -1,4 +1,5 @@
 import json
+
 def dumpRowFeatures(filename,row_features):
     features = {}
     num = 0
