@@ -1,5 +1,12 @@
 import json
-
+import pickle as pkl
+import numpy as np
+def dumpEdgeFeatures(filename,edg_features):
+    edges = np.array(np.expand_dims(edg_features.values, axis=-1))
+    file = open(filename,"wb")
+    pkl.dump(edges,file,-1)
+    file.close()
+    
 def dumpRowFeatures(filename,row_features):
     features = {}
     num = 0
