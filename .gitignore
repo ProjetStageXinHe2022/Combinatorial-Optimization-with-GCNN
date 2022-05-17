@@ -1,2 +1,6 @@
 #dataset
-#dataSet/
+#dataSet
+#jupyter file
+__*
+#zip file
+*.zip
