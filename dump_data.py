@@ -1,12 +1,28 @@
 import json
 import pickle as pkl
 import numpy as np
-def dumpEdgeFeatures(filename,edg_features):
-    edges = np.array(np.expand_dims(edg_features.values, axis=-1))
-    file = open(filename,"wb")
-    pkl.dump(edges,file,-1)
-    file.close()
-    
+# def dumpEdgeFeatures(filename,edge_features,row,col):
+#     edges = np.zeros((row,col))
+#     for i in range(len(edge_features.values)):
+#         edges[edge_features.indices[0][i]][edge_features.indices[1][i]] = edge_features.values[i]
+#     #edges = np.array(np.expand_dims(edg_features.values, axis=-1))
+#     #file = open(filename,"wb")
+#     #pkl.dump(edges,file,-1)
+#     #file.close()
+#     edges = edges.tolist()
+#     features = {"edges" : edges}
+#     data = json.dumps(features)
+#     file = open(filename,'w')
+#     file.write(data)
+#     file.close()   
+def dumpEdgeFeatures(filename,edge_features,row,col):
+	features = {"values":edge_features.values.tolist(),
+		        "indices":edge_features.indices.tolist()
+		       }
+	data = json.dumps(features)
+	file = open(filename,'w')
+	file.write(data)
+	file.close()  
 def dumpRowFeatures(filename,row_features):
     features = {}
     num = 0
