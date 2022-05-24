@@ -4,4 +4,6 @@ DataSet
 __*
 #zip file
 *.zip
+#file for ipynb
+.ipynb*
 
