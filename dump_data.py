@@ -1,75 +1,48 @@
 import json
 import pickle as pkl
 import numpy as np
-# def dumpEdgeFeatures(filename,edge_features,row,col):
-#     edges = np.zeros((row,col))
-#     for i in range(len(edge_features.values)):
-#         edges[edge_features.indices[0][i]][edge_features.indices[1][i]] = edge_features.values[i]
-#     #edges = np.array(np.expand_dims(edg_features.values, axis=-1))
-#     #file = open(filename,"wb")
-#     #pkl.dump(edges,file,-1)
-#     #file.close()
-#     edges = edges.tolist()
-#     features = {"edges" : edges}
-#     data = json.dumps(features)
-#     file = open(filename,'w')
-#     file.write(data)
-#     file.close()   
-def dumpEdgeFeatures(filename,edge_features,row,col):
+def dumpEdgeFeatures(filename,edge_features,original_indice):
+	l = len(original_indice)
+	dict_indice = np.zeros((l))
+	for i in range(l):
+		dict_indice[int(original_indice[i])] = i
+
+	for i in range(len(edge_features.indices[1])):
+		edge_features.indices[1][i] = dict_indice[edge_features.indices[1][i]]
+		
 	features = {"values":edge_features.values.tolist(),
-		        "indices":edge_features.indices.tolist()
-		       }
+			    "indices":edge_features.indices.tolist()
+			   }
 	data = json.dumps(features)
 	file = open(filename,'w')
 	file.write(data)
-	file.close()  
+	file.close() 
+ 
 def dumpRowFeatures(filename,row_features):
-    features = {}
-    num = 0
-    for node in row_features:
-        node_features = {"bias" : node[0],
-                    "objective_cosine_similarity" : node[1],
-                   "is_tight" : node[2],
-                   "dual_solution_value" : node[3],
-                   "scaled_age" : node[4]
-                    }
-        features[num] = node_features
-        num+=1
+    features = {
+        "names":["bias","objective_cosine_similarity","is_tight","dual_solution_value","scaled_age"],
+        "values":row_features.tolist()
+    }
     data = json.dumps(features)
     file = open(filename,'w')
     file.write(data)
     file.close()
 
 def dumpVariableFeatures(filename,variable_features):
-    features = {}
-    num = 0
-    for node in variable_features:
-        node_features = {"objective" : node[0],
-                "is_type_binary" : node[1],
-               "is_type_integer" : node[2],
-               "is_type_implicit_integer" : node[3],
-               "is_type_continuous" : node[4],
-                "has_lower_bound" : node[5],
-                "has_upper_bound" : node[6],
-               "normed_reduced_cost" : node[7],
-               "solution_value" : node[8],
-               "solution_frac" : node[9],
-                "is_solution_at_lower_bound" : node[10],
-                "is_solution_at_upper_bound" : node[11],
-               "scaled_age" : node[12],
-               "incumbent_value" : node[13],
-               "average_incumbent_value" : node[14],
-                "is_basis_lower" : node[15],
-                "is_basis_basic" : node[16],
-               "is_basis_upper" : node[17],
-               "is_basis_zero" : node[18]
-                }
-        features[num] = node_features
-        num+=1
-    data = json.dumps(features)
-    file = open(filename,'w')
-    file.write(data)
-    file.close()
+	value = variable_features[variable_features[:,0].argsort()]
+	
+	features = {
+		"names":["objective","is_type_binary","is_type_integer","is_type_implicit_integer",\
+		         "is_type_continuous","has_lower_bound","has_upper_bound","normed_reduced_cost",\
+		         "solution_value","solution_frac","is_solution_at_lower_bound","is_solution_at_upper_bound",\
+		         "scaled_age","incumbent_value","average_incumbent_value","is_basis_lower","is_basis_basic",\
+		         "is_basis_upper","is_basis_zero"],
+		"values":value[:,1:].tolist()
+	}
+	data = json.dumps(features)
+	file = open(filename,'w')
+	file.write(data)
+	file.close()
 
 def dumpSolution_Ecole(filename,pyscip):
     bestsol = pyscip.getBestSol()
@@ -101,7 +74,7 @@ def dumpSolution_Gurobi(filename,solver,nbSolMax = 10,poolGap=0.1):
     if status != GRB.OPTIMAL:
         print('Optimization was stopped with status ' + str(status))
         sys.exit(1)
-      #the first solution is the best  
+#the first solution is the best  
 #     #get the beat solution
 #     bestSol = {}
 #     for var in model.getVars():
@@ -128,11 +101,4 @@ def dumpSolution_Gurobi(filename,solver,nbSolMax = 10,poolGap=0.1):
     file = open(filename,'w')
     file.write(data)
     file.close()
-    
 
-# dumpRowFeatures("features/row.json",obs.row_features)
-# dumpVariableFeatures("features/v.json",obs.variable_features)
-# model = gb.read(problme_name+".lp")
-
-# model.optimize()
-# dumpSolution_Gurobi("test_dump_gurobi.json",model)
