@@ -1,6 +1,16 @@
-from dump_data import *
+import ecole
+import shutil
+import os
+import sys
+import time
+import numpy as np
+import pyscipopt as pyscip
+import pickle as pkl
 from tqdm import trange
-def generate_dataset(path = "DataSet/",nb_cons = [100,200,300,400,500],nb_var = [1,1.5,2],density = [0.1,0.15,0.2]):
+
+from dump_data import *
+
+def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,400,500],nb_var = [1,1.5,2],density = [0.1,0.15,0.2]):
     if os.path.exists(path):
         shutil.rmtree(path)
     os.mkdir(path)
