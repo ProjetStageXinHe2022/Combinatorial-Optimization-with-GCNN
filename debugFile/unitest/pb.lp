@@ -3,13 +3,13 @@
 \   Variables        : 5 (5 binary, 0 integer, 0 implicit integer, 0 continuous)
 \   Constraints      : 5
 Minimize
- Obj: +51 x0 +62 x1 +89 x2 +14 x3 +66 x4
+ Obj: +72 x0 +74 x1 +66 x2 +85 x3 +44 x4
 Subject to
- c0: +1 x0 +1 x1 +1 x2 +1 x3 +1 x4 >= +1
- c1: +1 x0 +1 x1 +1 x2 >= +1
- c2: +1 x0 +1 x2 +1 x3 +1 x4 >= +1
- c3: +1 x0 +1 x2 +1 x3 +1 x4 >= +1
- c4: +1 x1 +1 x2 +1 x3 +1 x4 >= +1
+ c0: +1 x0 +1 x2 +1 x3 +1 x4 >= +1
+ c1: +1 x0 +1 x1 +1 x2 +1 x3 +1 x4 >= +1
+ c2: +1 x1 +1 x2 +1 x3 >= +1
+ c3: +1 x0 +1 x1 +1 x2 +1 x3 +1 x4 >= +1
+ c4: +1 x0 +1 x1 +1 x4 >= +1
 Bounds
  0 <= x0 <= 1
  0 <= x1 <= 1
