@@ -31,6 +31,7 @@ def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,40
                             problme_name = \
                                 "set_cover_{"+row.__str__()+"*"+col.__str__()+"_"+d.__str__()+"_"+n.__str__()+"}"
                             instance = next(setCover)
+
                             #save problm lp
                             problme_name = \
                                 "set_cover_{"+row.__str__()+"*"+col.__str__()+"_"+d.__str__()+"_"+n.__str__()+"}"
@@ -57,7 +58,7 @@ def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,40
                             
                             done = True             
                         except Exception as ex:
-    #                         print("Erreur:%s"%ex)
+#                             print("Erreur:%s"%ex)
                             done = False
                             shutil.rmtree(path+problme_name)
     gap = np.array(gapList)

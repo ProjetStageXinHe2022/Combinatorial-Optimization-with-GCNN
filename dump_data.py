@@ -1,6 +1,7 @@
 import json
 import pickle as pkl
 import numpy as np
+import ast
 def dumpEdgeFeatures(filename,edge_features,original_indice):
 	l = len(original_indice)
 	dict_indice = np.zeros((l))
@@ -37,7 +38,7 @@ def dumpVariableFeatures(filename,variable_features):
 		         "solution_value","solution_frac","is_solution_at_lower_bound","is_solution_at_upper_bound",\
 		         "scaled_age","incumbent_value","average_incumbent_value","is_basis_lower","is_basis_basic",\
 		         "is_basis_upper","is_basis_zero"],
-		"values":value[:,1:].tolist()
+		"values":value[:,:-1].tolist()
 	}
 	data = json.dumps(features)
 	file = open(filename,'w')
@@ -46,9 +47,12 @@ def dumpVariableFeatures(filename,variable_features):
 
 def dumpSolution_Ecole(filename,pyscip):
     bestsol = pyscip.getBestSol()
+    solutionPool = []
+    for sol in pyscip.getSols():
+        solutionPool.append(np.around(list(ast.literal_eval(sol.__repr__()).values()),0).astype(int).tolist())
     solutions = {
-        "Best_Solution":bestsol.__str__(),
-        "Solution_Pool":pyscip.getSols().__str__()
+        "Best_Solution":np.around(list(ast.literal_eval(bestsol.__repr__()).values()),0).astype(int).tolist(),
+        "Solution_Pool":solutionPool
     }
     data = json.dumps(solutions)
     file = open(filename,'w')
