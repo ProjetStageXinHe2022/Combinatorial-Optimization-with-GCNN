@@ -30,26 +30,20 @@ def dumpRowFeatures(filename,row_features):
     file.close()
 
 def dumpVariableFeatures(filename,variable_features):
-    original_indice = variable_features[:,-1]
-    l = len(original_indice)
-    dict_indice = np.zeros((l))
-    for i in range(l):
-        dict_indice[int(original_indice[i])] = i
-    for i in range(l):
-        variable_features[i][-1] = dict_indice[i]
-    value = variable_features[variable_features[:,-1].argsort()]
-    features = {
-        "names":["objective","is_type_binary","is_type_integer","is_type_implicit_integer",\
-                 "is_type_continuous","has_lower_bound","has_upper_bound","normed_reduced_cost",\
-                 "solution_value","solution_frac","is_solution_at_lower_bound","is_solution_at_upper_bound",\
-                 "scaled_age","incumbent_value","average_incumbent_value","is_basis_lower","is_basis_basic",\
-                 "is_basis_upper","is_basis_zero"],
-        "values":value[:,:-1].tolist()
-    }
-    data = json.dumps(features)
-    file = open(filename,'w')
-    file.write(data)
-    file.close()
+	value = variable_features[variable_features[:,0].argsort()]
+	
+	features = {
+		"names":["objective","is_type_binary","is_type_integer","is_type_implicit_integer",\
+		         "is_type_continuous","has_lower_bound","has_upper_bound","normed_reduced_cost",\
+		         "solution_value","solution_frac","is_solution_at_lower_bound","is_solution_at_upper_bound",\
+		         "scaled_age","incumbent_value","average_incumbent_value","is_basis_lower","is_basis_basic",\
+		         "is_basis_upper","is_basis_zero"],
+		"values":value[:,1:].tolist()
+	}
+	data = json.dumps(features)
+	file = open(filename,'w')
+	file.write(data)
+	file.close()
 
 def dumpSolution_Ecole(filename,pyscip):
     bestsol = pyscip.getBestSol()
@@ -111,3 +105,4 @@ def dumpSolution_Gurobi(filename,solver,nbSolMax = 10,poolGap=0.1):
     file = open(filename,'w')
     file.write(data)
     file.close()
+

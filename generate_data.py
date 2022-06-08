@@ -46,7 +46,7 @@ def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,40
                             #save variables features
                             dumpVariableFeatures(path+problme_name+"/variables_features.json",obs.variable_features)
                             #save edges features
-                            original_indice = obs.variable_features[:,-1]
+                            original_indice = obs.variable_features[:,0]
                             dumpEdgeFeatures(path+problme_name+"/edges_features.json",obs.edge_features,original_indice)
                             #get et save label
                             solver = ecole.scip.Model.from_file(path+problme_name+"/problem.lp")
