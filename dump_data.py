@@ -38,7 +38,7 @@ def dumpVariableFeatures(filename,variable_features):
 		         "solution_value","solution_frac","is_solution_at_lower_bound","is_solution_at_upper_bound",\
 		         "scaled_age","incumbent_value","average_incumbent_value","is_basis_lower","is_basis_basic",\
 		         "is_basis_upper","is_basis_zero"],
-		"values":value[:,1:].tolist()
+		"values":value[:,:-1].tolist()
 	}
 	data = json.dumps(features)
 	file = open(filename,'w')
