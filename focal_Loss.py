@@ -3,8 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-class FocalLoss(nn.Module):
-    "Non weighted version of Focal Loss"    
+class FocalLoss(nn.Module):  
     def __init__(self, alpha=.25, gamma=2,is_cuda = True):
             super(FocalLoss, self).__init__() 
             self.alpha = torch.tensor([alpha, 1-alpha])
@@ -19,3 +18,5 @@ class FocalLoss(nn.Module):
             pt = torch.exp(-BCE_loss)        
             F_loss = at*(1-pt)**self.gamma * BCE_loss        
             return F_loss.mean()
+
+
