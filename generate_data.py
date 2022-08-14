@@ -8,8 +8,7 @@ import pyscipopt as pyscip
 import pickle as pkl
 from tqdm import trange
 
-from dump_data import *
-
+from utility import *
 def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,400,500],nb_var = [1,1.5,2],density = [0.1,0.15,0.2]):
     if os.path.exists(path):
         shutil.rmtree(path)
