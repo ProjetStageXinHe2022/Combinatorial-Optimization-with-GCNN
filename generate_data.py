@@ -9,7 +9,7 @@ import pickle as pkl
 from tqdm import trange
 
 from utility import *
-def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,400,500],nb_var = [1,1.5,2],density = [0.1,0.15,0.2]):
+def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,400,500],nb_var = [1,1.5,2],density = [0.1,0.15,0.2],nb_instance = 100):
     if os.path.exists(path):
         shutil.rmtree(path)
     os.mkdir(path)
@@ -23,7 +23,7 @@ def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,40
                 col = int(coef_col * row)
                 setCover = ecole.instance.SetCoverGenerator(n_rows = row, n_cols = col,density = d) 
                 print("Generate with Row:%d,Col:%d,Density:%f" % (row,col,d))
-                for n in trange(1,101):
+                for n in trange(1,nb_instance+1):
                     done = False
                     while(not done):
                         try:
