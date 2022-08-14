@@ -9,7 +9,7 @@ import pickle as pkl
 from tqdm import trange
 
 from utility import *
-def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,400,500],nb_var = [1,1.5,2],density = [0.1,0.15,0.2],nb_instance = 100):
+def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [100,200,300,400,500],nb_var = [1,1.5,2],density = [0.1,0.15,0.2],nb_instance = 100 ):
     if os.path.exists(path):
         shutil.rmtree(path)
     os.mkdir(path)
