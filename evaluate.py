@@ -57,8 +57,8 @@ def getInput(scip_parameters,path):
     return [matrix_H,matrix_A,nb_var]
 
 
-def evoluate(model,H,A,nb_var,scip_parameters):
-    predictions = net(torch.from_numpy(H).float(),torch.from_numpy(A).float()).squeeze(dim=-1)[:nb_var]
+def evaluate(model,H,A,nb_var,scip_parameters):
+    predictions = model(torch.from_numpy(H).float(),torch.from_numpy(A).float()).squeeze(dim=-1)[:nb_var]
     aux= torch.Tensor([0.5])
     y_hat = (predictions > aux).float() * 1
     return y_hat,predictions
@@ -83,11 +83,11 @@ def heuristique(score,A):
             A = np.delete(A, i_cons, axis=1)
     return solution
 
-def optimize(model,lp_file):
+def optimize(scip_parameters,model,lp_file):
     H,A,nb_var = getInput(scip_parameters,lp_file)
-    y_hat,predictions = evoluate(net,H,A,nb_var,scip_parameters)
+    y_hat,predictions = evaluate(model,H,A,nb_var,scip_parameters)
     res_prect = heuristique(predictions.detach().numpy(),A)
-    return res_prect,y_hat
+    return res_prect,y_hat,A
 
 if __name__ == "__main__":
     scip_parameters = {"branching/scorefunc": "s",
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     criterion = nn.BCELoss()
     net = VariablePredictor(24,50,3)
     net.load_state_dict(torch.load(model_path,map_location=torch.device('cpu')))
-    res_her,res_gnn = optimize(net,lp)
+    res_her,res_gnn,A = optimize(scip_parameters,net,lp)
     print("Solution by heristirque:",np.where(res_her == 1)[0])
     print("Solution by GNN:",np.where(res_gnn == 1)[0])
     
