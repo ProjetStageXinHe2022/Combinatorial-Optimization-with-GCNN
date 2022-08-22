@@ -86,7 +86,7 @@ def heuristique(score,A):
 def optimize(scip_parameters,model,lp_file):
     H,A,nb_var = getInput(scip_parameters,lp_file)
     y_hat,predictions = evaluate(model,H,A,nb_var,scip_parameters)
-    res_prect = heuristique(ccccc,A)
+    res_prect = heuristique(predictions.detach().numpy(),A)
     return res_prect,y_hat,A
 
 if __name__ == "__main__":

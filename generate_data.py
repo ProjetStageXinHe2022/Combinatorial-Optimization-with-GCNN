@@ -44,6 +44,7 @@ def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [500],nb_var = 
                                 obs, _, _, _, _ = env.reset(instance)
                                 if obs.row_features.shape[0] != row:
                                     raise Exception
+                                print("created pb")
                                 #save constraintes features
                                 dumpRowFeatures(path+problem_name+"/constraints_features.json",obs.row_features)
                                 #save variables features
@@ -52,6 +53,7 @@ def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [500],nb_var = 
                                 original_indice = obs.variable_features[:,-1]
                                 dumpEdgeFeatures(path+problem_name+"/edges_features.json",obs.edge_features,original_indice)
                                 #get et save label
+                                print("saved features")
                                 solver = ecole.scip.Model.from_file(path+problem_name+"/problem.lp")
                                 aspyscip = solver.as_pyscipopt()
                                 aspyscip.setPresolve(pyscip.SCIP_PARAMSETTING.OFF)
@@ -61,7 +63,7 @@ def generate_dataset(scip_parameters,path = "DataSet/",nb_cons = [500],nb_var = 
                             
                             done = True             
                         except Exception as ex:
-#                             print("Erreur:%s"%ex)
+                            print("Erreur:%s"%ex)
                             done = False
                             shutil.rmtree(path+problem_name)
     gap = np.array(gapList)
